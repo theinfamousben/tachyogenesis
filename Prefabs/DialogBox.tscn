@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dn26sfqwipiba"]
+
+[ext_resource type="Texture2D" uid="uid://sl5ckbhh0ec5" path="res://Media/Images/UI/diabox.png" id="1_4kulo"]
+
+[node name="DialogBox" type="Control" unique_id=159959868]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1789786034]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+offset_right = 40.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+texture = ExtResource("1_4kulo")
+region_rect = Rect2(0, 0, 64, 32)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8

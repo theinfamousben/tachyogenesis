@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dk527ixr0erx3"]
+
+[ext_resource type="PackedScene" uid="uid://dn26sfqwipiba" path="res://Prefabs/DialogBox.tscn" id="1_3edat"]
+
+[node name="Intro" type="Node2D" unique_id=637030516]
+
+[node name="DialogBox" parent="." unique_id=834853330 instance=ExtResource("1_3edat")]
+z_index = 1
+offset_right = 160.0
+offset_bottom = 168.0
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1767677097]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.047058824, 0.047058824, 0.047058824, 1)
