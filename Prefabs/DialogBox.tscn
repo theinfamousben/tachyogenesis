@@ -8,12 +8,23 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
+[node name="Label" type="Label" parent="." unique_id=1545224255]
+z_index = 1
+layout_mode = 0
+offset_left = 80.0
+offset_top = 16.0
+offset_right = 1072.0
+offset_bottom = 176.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+
 [node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1789786034]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-offset_right = 40.0
-offset_bottom = 42.0
+offset_left = 64.0
+offset_right = 320.0
+offset_bottom = 48.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(4, 4)

@@ -1,13 +1,16 @@
 [gd_scene format=3 uid="uid://dk527ixr0erx3"]
 
 [ext_resource type="PackedScene" uid="uid://dn26sfqwipiba" path="res://Prefabs/DialogBox.tscn" id="1_3edat"]
+[ext_resource type="Script" uid="uid://cjwpld46p2x1f" path="res://Scripts/Intro.cs" id="1_rrrc0"]
 
 [node name="Intro" type="Node2D" unique_id=637030516]
+script = ExtResource("1_rrrc0")
 
 [node name="DialogBox" parent="." unique_id=834853330 instance=ExtResource("1_3edat")]
 z_index = 1
-offset_right = 160.0
-offset_bottom = 168.0
+offset_top = 416.0
+offset_right = 104.0
+offset_bottom = 496.0
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1767677097]
 offset_right = 1152.0
