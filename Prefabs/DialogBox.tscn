@@ -2,21 +2,26 @@
 
 [ext_resource type="Texture2D" uid="uid://sl5ckbhh0ec5" path="res://Media/Images/UI/diabox.png" id="1_4kulo"]
 
+[sub_resource type="Theme" id="Theme_4kulo"]
+default_font_size = 36
+
 [node name="DialogBox" type="Control" unique_id=159959868]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="." unique_id=1545224255]
+[node name="Message" type="RichTextLabel" parent="." unique_id=2062762344]
 z_index = 1
 layout_mode = 0
-offset_left = 80.0
-offset_top = 16.0
-offset_right = 1072.0
-offset_bottom = 176.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 36
+offset_left = 88.0
+offset_top = 24.0
+offset_right = 1064.0
+offset_bottom = 168.0
+theme = SubResource("Theme_4kulo")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "[i][MESSAGE][/i]"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1789786034]
 texture_filter = 1
@@ -34,3 +39,17 @@ patch_margin_left = 8
 patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
+
+[node name="AuthorContainer" type="ColorRect" parent="." unique_id=59186501]
+layout_mode = 0
+offset_left = 88.0
+offset_top = -24.0
+offset_right = 264.0
+color = Color(0.012617188, 0.012617188, 0.012617188, 1)
+
+[node name="Author" type="RichTextLabel" parent="AuthorContainer" unique_id=1647015218]
+layout_mode = 0
+offset_right = 176.0
+offset_bottom = 24.0
+text = "[AUTHOR]"
+horizontal_alignment = 1

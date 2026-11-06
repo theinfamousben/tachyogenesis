@@ -23,10 +23,16 @@ public partial class TitleScreen : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		
 	}
 
 	public void _OnQuit()
 	{
 		GetTree().Quit();
+	}
+
+	public void _OnNewGame()
+	{
+		GetTree().ChangeSceneToFile("res://Scenes/Intro.tscn");
 	}
 }
