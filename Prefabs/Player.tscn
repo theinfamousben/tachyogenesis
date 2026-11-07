@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bsp52rogj2mjx"]
+
+[ext_resource type="Script" uid="uid://bn6c7w5yunden" path="res://Scripts/Player.cs" id="1_x3d5u"]
+[ext_resource type="Texture2D" uid="uid://bge618thr2baa" path="res://Media/Images/Athena/athena_test.png" id="2_x3d5u"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q034m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_x3d5u")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tmte0"]
+size = Vector2(128, 128)
+
+[node name="Player" type="CharacterBody2D" unique_id=1465626810]
+scale = Vector2(0.25, 0.25)
+script = ExtResource("1_x3d5u")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1449080356]
+texture_filter = 1
+position = Vector2(3.8146973e-06, -3.8146973e-06)
+scale = Vector2(3.9999998, 3.9999998)
+sprite_frames = SubResource("SpriteFrames_q034m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1830150566]
+shape = SubResource("RectangleShape2D_tmte0")

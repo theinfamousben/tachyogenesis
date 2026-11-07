@@ -1,36 +1,30 @@
-[gd_scene format=3 uid="uid://he5vh8n0w38k"]
+[gd_scene format=4 uid="uid://he5vh8n0w38k"]
 
 [ext_resource type="Script" uid="uid://b6p57mnn6lhp" path="res://Scripts/Controller.cs" id="1_d8xt5"]
-[ext_resource type="Texture2D" uid="uid://bwsl02fxigxt2" path="res://icon.svg" id="1_noybb"]
-[ext_resource type="Script" uid="uid://bn6c7w5yunden" path="res://Scripts/Player.cs" id="3_tmte0"]
+[ext_resource type="PackedScene" uid="uid://bsp52rogj2mjx" path="res://Prefabs/Player.tscn" id="2_d8xt5"]
+[ext_resource type="Texture2D" uid="uid://cto4qpgr7dhbw" path="res://Media/Images/Tilemap/facility_1.png" id="4_tmte0"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_q034m"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_noybb")
-}],
-"loop": 1,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a1n5f"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wk8rj"]
+texture = ExtResource("4_tmte0")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="TileSet" id="TileSet_q034m"]
 tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_wk8rj")
 
-[node name="SampleScene" type="Node2D" unique_id=134743082]
+[node name="Controller" type="Node2D" unique_id=134743082]
 script = ExtResource("1_d8xt5")
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=365903476]
-script = ExtResource("3_tmte0")
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1921461365]
+scale = Vector2(0.25, 0.25)
+zoom = Vector2(1.9, 1.9)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=239581543]
-sprite_frames = SubResource("SpriteFrames_q034m")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1739059640]
-shape = SubResource("CapsuleShape2D_a1n5f")
+[node name="Player" parent="." unique_id=1465626810 instance=ExtResource("2_d8xt5")]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1036697569]
+tile_map_data = PackedByteArray("AAD8/wcAAAAAAAAAAAD9/wcAAAAAAAAAAAD+/wcAAAAAAAAAAAD//wcAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAACAAcAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_q034m")
+physics_quadrant_size = 32

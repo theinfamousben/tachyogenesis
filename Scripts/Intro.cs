@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Godot;
 
@@ -6,6 +7,7 @@ namespace Tachyogenesis.Scripts;
 public partial class Intro : Node2D
 {
     [Signal] public delegate void KeypressEventHandler();
+    private bool typing;
     private bool firstKeypressEvent;
     private Control dialogBox;
     private RichTextLabel dialogText;
@@ -14,6 +16,8 @@ public partial class Intro : Node2D
     
     public override void _Ready()
     {
+        Keypress += AttemptSkipDialogue;
+        
         // --- INITIALIZATION ---
         dialogBox = GetNode<Control>("DialogBox");
         dialogText = GetNode<RichTextLabel>("DialogBox/Message");
@@ -31,30 +35,49 @@ public partial class Intro : Node2D
     {
         firstKeypressEvent = false;
         
-        await WaitForSeconds(2f);
+        await WaitForSeconds(1f);
         dialogBox.Show();
         await WaitForSeconds(0.5f);
         
         await Typewriter("[i][color=gray]You drowsily open your eyes.[/color][/i]");
-        Hint();
-        
-        await ToSignal(this, SignalName.Keypress);
+        StartHintTimer();
+        await WaitForKeypress();
         firstKeypressEvent = true;
         
         await Typewriter("[i]... What is this place?[/i]", "[Glitch text]");
+        await WaitForKeypress();
+
+        await Typewriter("[i][color=gray]The cryogenic hibernation pod from which you emerged let out a tired beep and whirred into standby.[/color][/i]");
+        await WaitForKeypress();
+
+        await Typewriter("...", "[Glitch Text]", 0.33f);
+        await WaitForKeypress();
+
+        await Typewriter("[i][color=gray]You look around, nervous and confused.[/color][/i]");
+        await WaitForKeypress();
+
+        GetTree().ChangeSceneToFile("res://Scenes/Map/Facility/0.tscn");
     }
 
-    public async void Hint()
+    public async Task WaitForKeypress() => await ToSignal(this, SignalName.Keypress);
+
+    public async void StartHintTimer()
     {
-        await WaitForSeconds(10f);
+        await WaitForSeconds(5f);
         if (firstKeypressEvent) return;
         dialogText.Text += "\n[font_size=16][i]Press Enter/E to continue.[/i][/font_size]";
     }
     
 	public async Task WaitForSeconds(float seconds) => await ToSignal(GetTree().CreateTimer(seconds), SceneTreeTimer.SignalName.Timeout);
 
+    public void AttemptSkipDialogue()
+    {
+        if (typing) typing = false;
+    }
+    
     public async Task Typewriter(string msg, string author = null, float delta = 0.1f)
     {
+        typing = true;
         dialogText.VisibleCharacters = 0;
         dialogText.Text = msg;
         
@@ -70,12 +93,14 @@ public partial class Intro : Node2D
         
         for (int i = 0; i < msg.Length; i++)
         {
+            if (!typing) break;
             dialogText.VisibleCharacters = i + 1;
 
             await WaitForSeconds(delta);
         }
 
         dialogText.VisibleCharacters = -1;
+        typing = false;
     }
 
     public override void _UnhandledInput(InputEvent @event)
