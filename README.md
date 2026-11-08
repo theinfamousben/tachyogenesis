@@ -14,7 +14,7 @@
 
 ### From the Releases
 
-1. Check out the [Latest Release](https://github.com/theinfamousben/tachyogenesis/releases/[CHANGEME])
+1. Check out the [Latest Release](https://github.com/theinfamousben/tachyogenesis/releases/tag/p0.1)
 2. Download the .zip file for your operating system.
 3. Extract the files into another folder.
 4. Run the executable (`.exe` for windows, `.sh` for linux)
