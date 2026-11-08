@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b6p57mnn6lhp" path="res://Scripts/Controller.cs" id="1_d8xt5"]
 [ext_resource type="PackedScene" uid="uid://bsp52rogj2mjx" path="res://Prefabs/Player.tscn" id="2_d8xt5"]
 [ext_resource type="Texture2D" uid="uid://cto4qpgr7dhbw" path="res://Media/Images/Tilemap/facility_1.png" id="4_tmte0"]
+[ext_resource type="PackedScene" uid="uid://dn26sfqwipiba" path="res://Prefabs/DialogBox.tscn" id="4_wk8rj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wk8rj"]
 texture = ExtResource("4_tmte0")
@@ -28,3 +29,12 @@ zoom = Vector2(1.9, 1.9)
 tile_map_data = PackedByteArray("AAD8/wcAAAAAAAAAAAD9/wcAAAAAAAAAAAD+/wcAAAAAAAAAAAD//wcAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAACAAcAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_q034m")
 physics_quadrant_size = 32
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1840020799]
+
+[node name="DialogBox" parent="CanvasLayer" unique_id=159959868 instance=ExtResource("4_wk8rj")]
+z_index = 1
+offset_top = 408.0
+offset_bottom = 448.0
+
+[node name="InteractableObjects" type="Node2D" parent="." unique_id=1457602680]

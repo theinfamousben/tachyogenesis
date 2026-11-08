@@ -11,9 +11,10 @@ config_version=5
 [application]
 
 config/name="Tachyogenesis"
+config/version="p0.1"
 run/main_scene="uid://dsc1mk15clred"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://cmaou1orm3lt2"
 
 [display]
 

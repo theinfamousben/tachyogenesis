@@ -1,15 +1,17 @@
 [gd_scene format=3 uid="uid://dn26sfqwipiba"]
 
 [ext_resource type="Texture2D" uid="uid://sl5ckbhh0ec5" path="res://Media/Images/UI/diabox.png" id="1_4kulo"]
+[ext_resource type="Script" uid="uid://ke5emiixussv" path="res://Scripts/DialogBox.cs" id="2_dialog"]
 
 [sub_resource type="Theme" id="Theme_4kulo"]
-default_font_size = 36
+default_font_size = 28
 
 [node name="DialogBox" type="Control" unique_id=159959868]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("2_dialog")
 
 [node name="Message" type="RichTextLabel" parent="." unique_id=2062762344]
 z_index = 1

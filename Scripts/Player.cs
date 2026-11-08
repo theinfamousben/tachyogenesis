@@ -86,12 +86,13 @@ public partial class Player : CharacterBody2D
 	{
 		if (@event.IsActionPressed("interact"))
 		{
-			
+			AttemptInteract();
 		}
 	}
 
 	public void AttemptInteract()
 	{
+		if (controller.InCutscene) return;
 		List<Node2D> targets = [];
 
 		foreach (Node2D node in GetTree().GetNodesInGroup("Interactable"))
@@ -110,10 +111,9 @@ public partial class Player : CharacterBody2D
 
 		Entity.Entity closest = null;
 		foreach (var node in targets)
-		{ 
+		{
 			if (node is not Entity.Entity { Interactable: true } e) continue;
-			
-			if (closest == null || node.Position.DistanceSquaredTo(Position) < closest.Position.DistanceTo(Position))
+			if (closest == null || node.Position.DistanceTo(Position) < closest.Position.DistanceTo(Position))
 			{
 				closest = e;
 			}

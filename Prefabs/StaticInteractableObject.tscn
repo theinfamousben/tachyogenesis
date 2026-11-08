@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://clo3u2vojspr8"]
+
+[ext_resource type="Script" uid="uid://ban6ga2em0twp" path="res://Scripts/Entity/StaticInteractableObject.cs" id="1_0fq6x"]
+[ext_resource type="Texture2D" uid="uid://bwsl02fxigxt2" path="res://icon.svg" id="2_l85je"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a1n5f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_l85je")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="StaticInteractableObject" type="Node2D" unique_id=167602863]
+script = ExtResource("1_0fq6x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1413788244]
+sprite_frames = SubResource("SpriteFrames_a1n5f")
