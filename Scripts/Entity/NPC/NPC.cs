@@ -9,6 +9,30 @@ public partial class NPC : Entity
     {
         
     }
+
+    public override void TakeDamage(float dmg)
+    {
+        base.TakeDamage(dmg);
+        
+        DamageAnimation();
+    }
+
+    public override void Die()
+    {
+        DeathAnimation();
+        
+        base.Die();
+    }
+
+    public async void DamageAnimation()
+    {
+        
+    }
+
+    public void DeathAnimation()
+    {
+        
+    }
 }
 public enum NPCType
 {

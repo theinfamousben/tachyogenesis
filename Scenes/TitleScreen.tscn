@@ -63,5 +63,8 @@ offset_right = 320.0
 offset_bottom = 608.0
 text = "Quit"
 
+[connection signal="pressed" from="ContinueGameButton" to="." method="_OnContinueGame"]
 [connection signal="pressed" from="NewGameButton" to="." method="_OnNewGame"]
+[connection signal="pressed" from="LoadGameButton" to="." method="_OnLoadGame"]
+[connection signal="pressed" from="SettingsButton" to="." method="_OnSettings"]
 [connection signal="pressed" from="QuitButton" to="." method="_OnQuit"]

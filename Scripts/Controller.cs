@@ -5,7 +5,6 @@ namespace Tachyogenesis.Scripts;
 
 public partial class Controller : Node2D
 {
-    public Tuple<int, int> CameraBounds { get; set; }
 	public float TimeScale { get; set; }
     public Camera2D Camera { get; set; }
     public string currentMap;

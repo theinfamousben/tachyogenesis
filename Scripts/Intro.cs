@@ -13,6 +13,8 @@ public partial class Intro : Node2D
     private RichTextLabel dialogText;
     private RichTextLabel authorText;
     private ColorRect authorContainer;
+    private float fastForwardMultiplier = 4.0f;
+    private bool fastForward = false;
     
     public override void _Ready()
     {
@@ -96,7 +98,7 @@ public partial class Intro : Node2D
             if (!typing) break;
             dialogText.VisibleCharacters = i + 1;
 
-            await WaitForSeconds(delta);
+            await WaitForSeconds(delta / (fastForward ? fastForwardMultiplier : 1));
         }
 
         dialogText.VisibleCharacters = -1;
@@ -108,6 +110,16 @@ public partial class Intro : Node2D
         if (@event.IsActionPressed("interact"))
         {
             EmitSignal(SignalName.Keypress);
+        }
+
+        if (@event.IsActionPressed("exit"))
+        {
+            fastForward = true;
+        }
+
+        if (@event.IsActionReleased("exit"))
+        {
+            fastForward = false;
         }
     }
 }

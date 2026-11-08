@@ -26,6 +26,21 @@ public partial class TitleScreen : Control
 		
 	}
 
+    public void _OnContinueGame()
+    {
+        continueButton.Text = "under construction";
+    }
+
+    public void _OnLoadGame()
+    {
+        loadGameButton.Text = "under construction";
+    }
+
+    public void _OnSettings()
+    {
+        settingsButton.Text = "under construction";
+    }
+
 	public void _OnQuit()
 	{
 		GetTree().Quit();
