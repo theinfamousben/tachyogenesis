@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bwsl02fxigxt2" path="res://icon.svg" id="3_cm77x"]
 [ext_resource type="Texture2D" uid="uid://cto4qpgr7dhbw" path="res://Media/Images/Tilemap/facility_1.png" id="4_ypuw0"]
 [ext_resource type="Script" uid="uid://dox0qwbotroy4" path="res://Scripts/Map/Facility/Facility0Bot.cs" id="5_cm77x"]
+[ext_resource type="Material" uid="uid://dj3n4oce3d5hg" path="res://Resources/Shaders/Outline.tres" id="6_qfqmi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wk8rj"]
 texture = ExtResource("4_ypuw0")
@@ -59,4 +60,5 @@ scale = Vector2(0.25, 0.25)
 script = ExtResource("5_cm77x")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="InteractableObjects/bot" unique_id=1413788244]
+material = ExtResource("6_qfqmi")
 sprite_frames = SubResource("SpriteFrames_a1n5f")

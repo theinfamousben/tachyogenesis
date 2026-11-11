@@ -1,3 +1,5 @@
+using Godot;
+
 namespace Tachyogenesis.Scripts.Entity.StaticInteractableObject;
 
 public partial class StaticInteractableObject : Entity
@@ -13,7 +15,8 @@ public partial class StaticInteractableObject : Entity
     public override void _Ready()
     {
         base._Ready();
-
+        
         controller = GetNode<Controller>("/root/Controller");
     }
+
 }

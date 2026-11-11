@@ -10,20 +10,24 @@ namespace Tachyogenesis.Scripts;
 
 public partial class Player : CharacterBody2D
 {
-	public Vector2 direction = new Vector2(1, 0);
-	public Vector2 reach = new Vector2(50, 0);
+	private Vector2 direction = new Vector2(1, 0);
+	private Vector2 reach = new Vector2(100, 0);
 	private Controller controller;
 	private const float Speed = 300.0f;
 	private const float JumpVelocity = -400.0f;
+	private AnimatedSprite2D sprite;
 
 	public override void _Ready()
 	{
 		controller = GetNode<Controller>("/root/Controller");
+		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
 	public override void _Process(double delta)
 	{
 		ProcessCameraMovement();
+		UpdateTargetOutline();
+		UpdateDirection();
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -62,17 +66,19 @@ public partial class Player : CharacterBody2D
 		if (Position.Y > 5000) Die();
 	}
 
-	void Die()
+	private void UpdateDirection() => sprite.FlipH = direction.X < 0;
+
+	private void Die()
 	{
 		Position = Vector2.Zero;
 	}
 
-	public bool CanMove()
+	private bool CanMove()
 	{
 		return !controller.InCutscene;
 	}
 	
-	public void ProcessCameraMovement()
+	private void ProcessCameraMovement()
 	{
 		var clamps = Constants.MAX_CAMERA_CLAMPS[controller.currentMap];
 		controller.Camera.Position = new Vector2
@@ -90,25 +96,21 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	public void AttemptInteract()
+	private void AttemptInteract()
 	{
 		if (controller.InCutscene) return;
-		List<Node2D> targets = [];
-
-		foreach (Node2D node in GetTree().GetNodesInGroup("Interactable"))
-		{
-			// Checks if the object is in reach, and if the player is looking at the object.
-			// As the direction the player is looking is either positive or negative, and so is the difference of
-			// the two positions; one can conclude that the player is looking at the object if the direction
-			// multiplied by the distance to the object is positive.
-			if (node.Position.X - Position.X <= reach.X && (node.Position.X - Position.X) * direction.X >= 0)
-			{
-				targets.Add(node);
-			}
-		}
-
+		var targets = GetInteractablesWithinReach();
+		
 		if (targets.Count < 1) return;
+		var closest = GetClosestTarget(targets);
 
+		// ReSharper disable once PossibleNullReferenceException
+		// closest will never be null
+		closest.Interact();
+	}
+
+	private Entity.Entity GetClosestTarget(List<Node2D> targets)
+	{
 		Entity.Entity closest = null;
 		foreach (var node in targets)
 		{
@@ -119,8 +121,55 @@ public partial class Player : CharacterBody2D
 			}
 		}
 
-		// ReSharper disable once PossibleNullReferenceException
-		// closest will never be null
-		closest.Interact();
+		return closest;
+	}
+
+	private List<Node2D> GetInteractablesWithinReach()
+	{
+		List<Node2D> targets = GetInteractables();
+		List<Node2D> targetsWithinReach = [];
+		
+		foreach (var target in targets)
+		{
+			// Checks if the object is in reach, and if the player is looking at the object.
+			// As the direction the player is looking is either positive or negative, and so is the difference of
+			// the two positions; one can conclude that the player is looking at the object if the direction
+			// multiplied by the distance to the object is positive.
+			if (IsWithinReach(target))
+			{
+				targetsWithinReach.Add(target);
+			}
+		}
+
+		return targetsWithinReach;
+	}
+
+	private bool IsWithinReach(Node2D target) => target.Position.X - Position.X <= reach.X &&
+												 (target.Position.X - Position.X) * direction.X >= 0;
+
+	private List<Node2D> GetInteractables()
+	{
+		List<Node2D> targets = [];
+
+		foreach (Node2D node in GetTree().GetNodesInGroup("Interactable"))
+		{
+			targets.Add(node);
+		}
+
+		return targets;
+	}
+
+	private void UpdateTargetOutline()
+	{
+		var targets = GetInteractables();
+		foreach (var target in targets)
+		{
+			if (target is not Entity.Entity e) continue;
+			e.SetOutline(false);
+		}
+
+		if (targets.Count < 1) return;
+		var closest = GetClosestTarget(targets);
+		if (IsWithinReach(closest)) closest.SetOutline(true);
 	}
 }
