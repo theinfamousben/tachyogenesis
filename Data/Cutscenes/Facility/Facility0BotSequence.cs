@@ -103,11 +103,58 @@ public class Facility0BotSequence : Cutscene
         await dialog.WaitForKeypress();
 
         await dialog.Typewriter(
-            "It seems your long stay in the Temporal Deceleration Chamber has left you with retrograde amnesia. I am certain it will wear off in time, but I don't know how long that will be.",
+            "It seems your long stay in the Temporal Deceleration Chamber has left you with retrograde amnesia. I am certain it will wear off in time, but it is incalculable how long that will be.",
             bot);
         await dialog.WaitForKeypress();
 
-        await dialog.Typewriter("[i][color=gray]Ending cutscene early as the rest is unfinished.[/color][/i]");
+        await dialog.Typewriter("How can I leave this place?", athena);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter(
+            "I discourage you from trying to leave the facility - The outside world is rather unpleasant for humans like you.",
+            bot);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter("Is there really no way I can leave?", athena);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter("The outside world is very dangerous. If you really want to go out there, I shall give you the spare tachyokinetic converter I have been given.", bot);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter("The tachyo-what-now?", athena);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter(
+            "A tachyokinetic converter is a device used to manipulate local temporal inertia to one's will. A device like this will give you an advantage over anything that might attempt to harm you.", bot);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter("...Harm me?", athena);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter("As mentioned before; the outside world is a dangerous place.", bot);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter("[i][color=yellow]beep beep![/color][/i]");
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter("It seems I have to leave.", bot);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter("Farewell and good luck on your journey. I hope to see you again in the future.", bot);
+        await dialog.WaitForKeypress();
+
+        await dialog.Typewriter("Wait--!", athena);
+        await dialog.WaitForKeypress();
+        
+        dialog.Hide();
+        await dialog.WaitForSeconds(0.5f);
+        
+        cutscene.Hide();
+
+        await dialog.WaitForSeconds(1f);
+        dialog.Show();
+        
+        await dialog.Typewriter("Oh...", athena);
         await dialog.WaitForKeypress();
         
         dialog.Hide();

@@ -131,10 +131,6 @@ public partial class Player : CharacterBody2D
 		
 		foreach (var target in targets)
 		{
-			// Checks if the object is in reach, and if the player is looking at the object.
-			// As the direction the player is looking is either positive or negative, and so is the difference of
-			// the two positions; one can conclude that the player is looking at the object if the direction
-			// multiplied by the distance to the object is positive.
 			if (IsWithinReach(target))
 			{
 				targetsWithinReach.Add(target);
@@ -144,7 +140,13 @@ public partial class Player : CharacterBody2D
 		return targetsWithinReach;
 	}
 
-	private bool IsWithinReach(Node2D target) => target.Position.X - Position.X <= reach.X &&
+	///<summary>
+	/// Checks if the object is in reach, and if the player is looking at the object.
+	/// As the direction the player is looking is either positive or negative, and so is the difference of
+	/// the two positions; one can conclude that the player is looking at the object if the direction
+	/// multiplied by the distance to the object is positive.
+	/// </summary>
+	private bool IsWithinReach(Node2D target) => Mathf.Abs(target.Position.X - Position.X) <= reach.X &&
 												 (target.Position.X - Position.X) * direction.X >= 0;
 
 	private List<Node2D> GetInteractables()
