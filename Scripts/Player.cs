@@ -1,10 +1,6 @@
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using Godot;
 using Tachyogenesis.Data;
-using Tachyogenesis.Scripts.Entity.NPC;
-using Tachyogenesis.Types;
 
 namespace Tachyogenesis.Scripts;
 
