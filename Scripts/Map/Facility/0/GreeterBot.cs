@@ -1,9 +1,9 @@
 using Tachyogenesis.Data.Cutscenes.Facility;
 using Tachyogenesis.Scripts.Entity.StaticInteractableObject;
 
-namespace Tachyogenesis.Scripts.Map.Facility;
+namespace Tachyogenesis.Scripts.Map.Facility._0;
 
-public partial class Facility0Bot : CutsceneInitiator
+public partial class GreeterBot : CutsceneInitiator
 {
 	public async override void Interact()
 	{

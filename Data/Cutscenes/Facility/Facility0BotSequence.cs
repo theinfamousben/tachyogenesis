@@ -16,6 +16,7 @@ public class Facility0BotSequence : Cutscene
         const string bot = "Bot";
         string athena = "???";
         
+        cutscene.controller.Hud.Hide();
         dialog.Show();
 
         await dialog.Typewriter("Hello...?", athena);
@@ -158,6 +159,7 @@ public class Facility0BotSequence : Cutscene
         await dialog.WaitForKeypress();
         
         dialog.Hide();
+        cutscene.controller.Hud.Show();
         cutscene.QueueFree();
     }
 }

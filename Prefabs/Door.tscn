@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dhhbove26l1hy"]
+
+[ext_resource type="Script" uid="uid://bytcjllgwtab1" path="res://Scripts/Entity/StaticInteractableObject/Door.cs" id="1_enifj"]
+[ext_resource type="Material" uid="uid://dj3n4oce3d5hg" path="res://Resources/Shaders/Outline.tres" id="2_0nao1"]
+[ext_resource type="Texture2D" uid="uid://bwsl02fxigxt2" path="res://icon.svg" id="3_fhsds"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a1n5f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_fhsds")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Door" type="Node2D" unique_id=167602863]
+script = ExtResource("1_enifj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1413788244]
+material = ExtResource("2_0nao1")
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_a1n5f")

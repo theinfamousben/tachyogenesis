@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bsfowah1rc7ba"]
+
+[ext_resource type="Script" uid="uid://bm5eqqdckwpbp" path="res://Scripts/FallingBlock.cs" id="1_lkpoa"]
+[ext_resource type="Texture2D" uid="uid://bwsl02fxigxt2" path="res://icon.svg" id="2_1dfum"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a1n5f"]
+size = Vector2(32, 32)
+
+[node name="FallingBlock" type="RigidBody2D" unique_id=690287953]
+script = ExtResource("1_lkpoa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=786016194]
+shape = SubResource("RectangleShape2D_a1n5f")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1463805114]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_1dfum")

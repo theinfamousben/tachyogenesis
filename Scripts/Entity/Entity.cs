@@ -4,7 +4,8 @@ namespace Tachyogenesis.Scripts.Entity;
 
 public partial class Entity : Node2D
 {
-	public bool Interactable { get; protected init;  }
+	public Controller controller;
+	public bool Interactable { get; protected init; }
 	public float Health { get; private set; }
 	public float MaxHealth { get; protected init; }
 	public bool Invincible { get; set; }
@@ -21,6 +22,7 @@ public partial class Entity : Node2D
 
 	public override void _Ready()
 	{
+		controller = GetNode<Controller>("/root/Controller");
 		if (Interactable) AddToGroup("Interactable");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		shaderMaterial = (ShaderMaterial)sprite.Material;

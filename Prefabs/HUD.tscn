@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://dboe36707weur"]
 
+[ext_resource type="Script" uid="uid://dlau788g674x" path="res://Scripts/UI/Hud.cs" id="1_exsb8"]
+
 [node name="Hud" type="Control" unique_id=1271269019]
 layout_mode = 3
 anchors_preset = 15
@@ -7,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_exsb8")
 
 [node name="Health" type="Label" parent="." unique_id=18491640]
 layout_mode = 0
@@ -14,3 +17,18 @@ offset_top = 608.0
 offset_right = 160.0
 offset_bottom = 648.0
 text = "Health: 67"
+
+[node name="TimeScale" type="Label" parent="." unique_id=1302184221]
+layout_mode = 0
+offset_top = 568.0
+offset_right = 160.0
+offset_bottom = 608.0
+text = "Time Scale: [0.00]"
+
+[node name="ElapsedTime" type="Label" parent="." unique_id=2004184781]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 528.0
+offset_right = 152.0
+offset_bottom = 568.0
+text = "Elapsed Time: [0.00]"

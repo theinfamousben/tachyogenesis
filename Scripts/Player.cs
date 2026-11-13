@@ -6,9 +6,13 @@ namespace Tachyogenesis.Scripts;
 
 public partial class Player : CharacterBody2D
 {
+	[Signal] public delegate void HealthChangedEventHandler(float health);
+
+	public float Health { get; private set; }
 	private Vector2 direction = new Vector2(1, 0);
 	private Vector2 reach = new Vector2(100, 0);
 	private Controller controller;
+	private Vector2 origin;
 	private const float Speed = 300.0f;
 	private const float JumpVelocity = -400.0f;
 	private AnimatedSprite2D sprite;
@@ -17,6 +21,7 @@ public partial class Player : CharacterBody2D
 	{
 		controller = GetNode<Controller>("/root/Controller");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		origin = Position;
 	}
 
 	public override void _Process(double delta)
@@ -28,12 +33,26 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (controller.TimeScale < 0)
+		{
+			Rewind((float)delta);
+			return;
+		}
+
+		float timeScale = (float)controller.TimeScale;
+		if (Mathf.IsZeroApprox(timeScale))
+		{
+			Velocity = Vector2.Zero;
+			return;
+		}
+
+		float scaledDelta = controller.ScaledPhysicsDelta(delta);
 		Vector2 velocity = Velocity;
 
 		// Add the gravity.
 		if (!IsOnFloor())
 		{
-			velocity += GetGravity() * (float)delta;
+			velocity += GetGravity() * scaledDelta;
 		}
 
 		// Handle Jump.
@@ -56,10 +75,18 @@ public partial class Player : CharacterBody2D
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 		}
 
-		Velocity = velocity;
+		Velocity = velocity * timeScale;
 		MoveAndSlide();
+		Velocity /= timeScale;
 		
 		if (Position.Y > 5000) Die();
+	}
+
+	private void Rewind(float delta)
+	{
+		float distance = Speed * Mathf.Abs(controller.ScaledPhysicsDelta(delta));
+		Position = Position.MoveToward(origin, distance);
+		Velocity = Vector2.Zero;
 	}
 
 	private void UpdateDirection() => sprite.FlipH = direction.X < 0;
@@ -76,7 +103,7 @@ public partial class Player : CharacterBody2D
 	
 	private void ProcessCameraMovement()
 	{
-		var clamps = Constants.MAX_CAMERA_CLAMPS[controller.currentMap];
+		var clamps = Constants.MAX_CAMERA_CLAMPS[controller.CurrentMap];
 		controller.Camera.Position = new Vector2
 		(
 			Mathf.Clamp (Position.X, clamps.x1, clamps.x2),
@@ -89,6 +116,16 @@ public partial class Player : CharacterBody2D
 		if (@event.IsActionPressed("interact"))
 		{
 			AttemptInteract();
+		}
+
+		if (@event.IsActionPressed("time_down"))
+		{
+			controller.TimeScale -= 0.01d;
+		}
+
+		if (@event.IsActionPressed("time_up"))
+		{
+			controller.TimeScale += 0.01d;
 		}
 	}
 

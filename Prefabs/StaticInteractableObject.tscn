@@ -20,4 +20,5 @@ script = ExtResource("1_0fq6x")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1413788244]
 material = ExtResource("2_cfmea")
+scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_a1n5f")
