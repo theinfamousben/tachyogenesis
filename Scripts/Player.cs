@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 using Tachyogenesis.Data;
+using Tachyogenesis.Types;
 
 namespace Tachyogenesis.Scripts;
 
@@ -13,6 +14,7 @@ public partial class Player : CharacterBody2D
 	private Vector2 reach = new Vector2(100, 0);
 	private Controller controller;
 	private Vector2 origin;
+	private CoordHist coordHist;
 	private const float Speed = 300.0f;
 	private const float JumpVelocity = -400.0f;
 	private AnimatedSprite2D sprite;
@@ -22,6 +24,7 @@ public partial class Player : CharacterBody2D
 		controller = GetNode<Controller>("/root/Controller");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		origin = Position;
+		coordHist = new CoordHist(origin);
 	}
 
 	public override void _Process(double delta)
@@ -33,26 +36,22 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (controller.TimeScale < 0)
-		{
-			Rewind((float)delta);
-			return;
-		}
+		// if (controller.TimeScale < 0)
+		// {
+		// 	var snapshot = coordHist.GetLatestAtOrBefore(controller.Elapsed);
+		// 	if (snapshot is { } position)
+		// 		Position = new Vector2(position.x, position.y);
+		// 	coordHist.RemoveAfter(controller.Elapsed);
+		// 	Velocity = Vector2.Zero;
+		// 	return;
+		// }
 
-		float timeScale = (float)controller.TimeScale;
-		if (Mathf.IsZeroApprox(timeScale))
-		{
-			Velocity = Vector2.Zero;
-			return;
-		}
-
-		float scaledDelta = controller.ScaledPhysicsDelta(delta);
 		Vector2 velocity = Velocity;
 
 		// Add the gravity.
 		if (!IsOnFloor())
 		{
-			velocity += GetGravity() * scaledDelta;
+			velocity += GetGravity() * (float)delta;
 		}
 
 		// Handle Jump.
@@ -61,10 +60,10 @@ public partial class Player : CharacterBody2D
 			velocity.Y = JumpVelocity;
 		}
 
-		Vector2 dir = CanMove() 
+		Vector2 dir = CanMove()
 			? Input.GetVector("move_left", "move_right", "ui_down", "ui_up")
 			: Vector2.Zero;
-		
+
 		if (dir != Vector2.Zero)
 		{
 			velocity.X = dir.X * Speed;
@@ -75,18 +74,11 @@ public partial class Player : CharacterBody2D
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 		}
 
-		Velocity = velocity * timeScale;
+		Velocity = velocity;
 		MoveAndSlide();
-		Velocity /= timeScale;
-		
-		if (Position.Y > 5000) Die();
-	}
+		coordHist.Add(new CoordinatePair(Position.X, Position.Y, controller.Elapsed));
 
-	private void Rewind(float delta)
-	{
-		float distance = Speed * Mathf.Abs(controller.ScaledPhysicsDelta(delta));
-		Position = Position.MoveToward(origin, distance);
-		Velocity = Vector2.Zero;
+		if (Position.Y > 5000) Die();
 	}
 
 	private void UpdateDirection() => sprite.FlipH = direction.X < 0;
@@ -100,7 +92,7 @@ public partial class Player : CharacterBody2D
 	{
 		return !controller.InCutscene;
 	}
-	
+
 	private void ProcessCameraMovement()
 	{
 		var clamps = Constants.MAX_CAMERA_CLAMPS[controller.CurrentMap];
@@ -118,14 +110,15 @@ public partial class Player : CharacterBody2D
 			AttemptInteract();
 		}
 
+		// TODO: CHANGE TIMESCALE CHANGE AMOUNT, FIGURE OUT WHY JOYSTICK UP SOMETIMES DOESN'T TRIGGER THIS
 		if (@event.IsActionPressed("time_down"))
 		{
-			controller.TimeScale -= 0.01d;
+			controller.TimeScale -= 0.5;
 		}
 
 		if (@event.IsActionPressed("time_up"))
 		{
-			controller.TimeScale += 0.01d;
+			controller.TimeScale += 0.5;
 		}
 	}
 
@@ -133,7 +126,7 @@ public partial class Player : CharacterBody2D
 	{
 		if (controller.InCutscene) return;
 		var targets = GetInteractablesWithinReach();
-		
+
 		if (targets.Count < 1) return;
 		var closest = GetClosestTarget(targets);
 
@@ -161,7 +154,7 @@ public partial class Player : CharacterBody2D
 	{
 		List<Node2D> targets = GetInteractables();
 		List<Node2D> targetsWithinReach = [];
-		
+
 		foreach (var target in targets)
 		{
 			if (IsWithinReach(target))
