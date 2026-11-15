@@ -43,14 +43,11 @@ public partial class FallingBlock : RigidBody2D
 		}
 		else
 		{
-			if (Freeze)
-			{
-				LinearVelocity = Vector2.Zero;
-				AngularVelocity = 0;
-				Sleeping = false;
-			}
-
 			Freeze = false;
+			// LinearVelocity = Vector2.Zero;
+			// AngularVelocity = 0;
+			Sleeping = false;
+
 			GravityScale = (float)controller.TimeScale;
 		}
 	}
