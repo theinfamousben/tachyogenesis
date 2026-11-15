@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dboe36707weur" path="res://Prefabs/HUD.tscn" id="4_0dyyu"]
 [ext_resource type="Texture2D" uid="uid://cto4qpgr7dhbw" path="res://Media/Images/Tilemap/facility_1.png" id="4_tmte0"]
 [ext_resource type="PackedScene" uid="uid://dn26sfqwipiba" path="res://Prefabs/DialogBox.tscn" id="4_wk8rj"]
+[ext_resource type="PackedScene" uid="uid://ds232qnxdg8c6" path="res://Prefabs/PauseMenu.tscn" id="6_0dyyu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wk8rj"]
 texture = ExtResource("4_tmte0")
@@ -37,5 +38,7 @@ tile_set = SubResource("TileSet_q034m")
 z_index = 1
 offset_top = 408.0
 offset_bottom = 448.0
+
+[node name="PauseMenu" parent="CanvasLayer" unique_id=237435265 instance=ExtResource("6_0dyyu")]
 
 [node name="InteractableObjects" type="Node2D" parent="." unique_id=1457602680]

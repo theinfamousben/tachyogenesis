@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using Tachyogenesis.Data;
@@ -95,7 +96,17 @@ public partial class Player : CharacterBody2D
 
 	private void ProcessCameraMovement()
 	{
-		var clamps = Constants.MAX_CAMERA_CLAMPS[controller.CurrentMap];
+		CoordinateRange clamps;
+		try
+		{
+			clamps = Constants.MAX_CAMERA_CLAMPS[controller.CurrentMap];
+		}
+		catch (KeyNotFoundException)
+		{
+			controller.ErrorHelper.ThrowOnce(Errors.CameraClampsNotSet, this.ToString());
+			clamps = new CoordinateRange();
+		}
+
 		controller.Camera.Position = new Vector2
 		(
 			Mathf.Clamp (Position.X, clamps.x1, clamps.x2),

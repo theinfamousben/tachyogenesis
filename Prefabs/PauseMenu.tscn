@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://ds232qnxdg8c6"]
+
+[ext_resource type="Script" uid="uid://b4nqcabveigp" path="res://Scripts/UI/PauseMenu.cs" id="1_o3hd0"]
+[ext_resource type="Theme" uid="uid://drgqlcidfogs1" path="res://Resources/PauseButtonTheme.tres" id="2_xu32l"]
+
+[node name="PauseMenu" type="Control" unique_id=237435265]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_o3hd0")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=781508342]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.26666668, 0.26666668, 0.26666668, 0.54509807)
+
+[node name="PausedLabel" type="Label" parent="." unique_id=343072781]
+layout_mode = 0
+offset_left = 384.0
+offset_top = 64.0
+offset_right = 704.0
+offset_bottom = 163.0
+theme_override_font_sizes/font_size = 72
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="." unique_id=2081578809]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 192.0
+offset_right = 672.0
+offset_bottom = 256.0
+theme = ExtResource("2_xu32l")
+text = "Continue"
+
+[node name="SettingsButton" type="Button" parent="." unique_id=603806236]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 264.0
+offset_right = 672.0
+offset_bottom = 328.0
+theme = ExtResource("2_xu32l")
+text = "Settings"
+
+[node name="QuitButton" type="Button" parent="." unique_id=2099330569]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 336.0
+offset_right = 672.0
+offset_bottom = 400.0
+theme = ExtResource("2_xu32l")
+text = "Quit"
+
+[connection signal="pressed" from="ContinueButton" to="." method="OnContinueButton"]
+[connection signal="pressed" from="SettingsButton" to="." method="OnSettingsButton"]
+[connection signal="pressed" from="QuitButton" to="." method="OnQuitButton"]

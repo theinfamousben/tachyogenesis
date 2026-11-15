@@ -51,7 +51,7 @@ public partial class FallingBlock : RigidBody2D
             }
 
             Freeze = false;
-            GravityScale = 1;
+            GravityScale = (float)controller.TimeScale;
         }
 	}
 
