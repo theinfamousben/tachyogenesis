@@ -2,7 +2,7 @@ using Godot;
 
 namespace Tachyogenesis.Scripts.Entity;
 
-public partial class Entity : Node2D
+public partial class Entity : CharacterBody2D
 {
 	public Controller controller;
 	public bool Interactable { get; protected init; }

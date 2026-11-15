@@ -21,15 +21,6 @@ sources/0 = SubResource("TileSetAtlasSource_wk8rj")
 [node name="Controller" type="Node2D" unique_id=134743082]
 script = ExtResource("1_d8xt5")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1921461365]
-scale = Vector2(0.25, 0.25)
-
-[node name="Player" parent="." unique_id=1465626810 instance=ExtResource("2_d8xt5")]
-
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1036697569]
-tile_map_data = PackedByteArray("AAD8/wcAAAAAAAAAAAD9/wcAAAAAAAAAAAD+/wcAAAAAAAAAAAD//wcAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAACAAcAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAA=")
-tile_set = SubResource("TileSet_q034m")
-
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1840020799]
 
 [node name="Hud" parent="CanvasLayer" unique_id=1271269019 instance=ExtResource("4_0dyyu")]
@@ -41,4 +32,17 @@ offset_bottom = 448.0
 
 [node name="PauseMenu" parent="CanvasLayer" unique_id=237435265 instance=ExtResource("6_0dyyu")]
 
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1921461365]
+scale = Vector2(0.25, 0.25)
+
+[node name="Player" parent="." unique_id=1465626810 instance=ExtResource("2_d8xt5")]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1036697569]
+tile_map_data = PackedByteArray("AAD8/wcAAAAAAAAAAAD9/wcAAAAAAAAAAAD+/wcAAAAAAAAAAAD//wcAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAACAAcAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_q034m")
+
 [node name="InteractableObjects" type="Node2D" parent="." unique_id=1457602680]
+
+[node name="StaticObjects" type="Node2D" parent="." unique_id=1301682673]
+
+[node name="NPCs" type="Node2D" parent="." unique_id=1024242286]

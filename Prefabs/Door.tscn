@@ -15,7 +15,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Door" type="Node2D" unique_id=167602863]
+[node name="Door" type="CharacterBody2D" unique_id=167602863]
 script = ExtResource("1_enifj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1413788244]

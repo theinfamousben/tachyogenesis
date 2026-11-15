@@ -65,8 +65,8 @@ physics_quadrant_size = 32
 position = Vector2(848, 16)
 script = ExtResource("7_w00ew")
 
-[node name="bot" type="Node2D" parent="InteractableObjects" unique_id=1848156476]
-position = Vector2(176, 16)
+[node name="bot" type="CharacterBody2D" parent="InteractableObjects" unique_id=1675686116]
+position = Vector2(200, 16)
 script = ExtResource("8_kh1o2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="InteractableObjects/bot" unique_id=1413788244]

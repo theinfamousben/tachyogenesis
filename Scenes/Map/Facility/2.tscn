@@ -1,0 +1,54 @@
+[gd_scene format=4 uid="uid://bjyagcp13duod"]
+
+[ext_resource type="Script" uid="uid://b6p57mnn6lhp" path="res://Scripts/Controller.cs" id="1_lwwhi"]
+[ext_resource type="PackedScene" uid="uid://bsp52rogj2mjx" path="res://Prefabs/Player.tscn" id="2_vepkj"]
+[ext_resource type="Texture2D" uid="uid://cto4qpgr7dhbw" path="res://Media/Images/Tilemap/facility_1.png" id="3_gw0kk"]
+[ext_resource type="PackedScene" uid="uid://dboe36707weur" path="res://Prefabs/HUD.tscn" id="4_m3f23"]
+[ext_resource type="PackedScene" uid="uid://dn26sfqwipiba" path="res://Prefabs/DialogBox.tscn" id="5_mwcw3"]
+[ext_resource type="PackedScene" uid="uid://ds232qnxdg8c6" path="res://Prefabs/PauseMenu.tscn" id="6_k8jj6"]
+[ext_resource type="PackedScene" uid="uid://ck5i6t5ub3ukp" path="res://Prefabs/SampleEnemy.tscn" id="7_iv5v8"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wk8rj"]
+texture = ExtResource("3_gw0kk")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[sub_resource type="TileSet" id="TileSet_q034m"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_wk8rj")
+
+[node name="Controller" type="Node2D" unique_id=134743082]
+script = ExtResource("1_lwwhi")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1840020799]
+
+[node name="Hud" parent="CanvasLayer" unique_id=1271269019 instance=ExtResource("4_m3f23")]
+
+[node name="DialogBox" parent="CanvasLayer" unique_id=159959868 instance=ExtResource("5_mwcw3")]
+z_index = 1
+offset_top = 408.0
+offset_bottom = 448.0
+
+[node name="PauseMenu" parent="CanvasLayer" unique_id=237435265 instance=ExtResource("6_k8jj6")]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1921461365]
+scale = Vector2(0.25, 0.25)
+
+[node name="Player" parent="." unique_id=1465626810 instance=ExtResource("2_vepkj")]
+position = Vector2(0, -368)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1036697569]
+tile_map_data = PackedByteArray("AAD8/wcAAAAAAAAAAAD9/wcAAAAAAAAAAAD+/wcAAAAAAAAAAAD//wcAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAACAAcAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAD///X/AAAAAAAAAAAAAPX/AAAAAAAAAAABAPX/AAAAAAAAAAACAPX/AAAAAAAAAAD+//X/AAAAAAAAAAD9//X/AAAAAAAAAAADAPX/AAAAAAAAAAAEAPX/AAAAAAAAAAAFAPX/AAAAAAAAAAAGAPX/AAAAAAAAAAAHAPX/AAAAAAAAAAAIAPX/AAAAAAAAAAAJAPX/AAAAAAAAAAAKAPX/AAAAAAAAAAALAPX/AAAAAAAAAAAMAPX/AAAAAAAAAAANAPX/AAAAAAAAAAAOAPX/AAAAAAAAAAAPAPX/AAAAAAAAAAAQAPX/AAAAAAAAAAARAPX/AAAAAAAAAAASAPX/AAAAAAAAAAATAPX/AAAAAAAAAAAUAPX/AAAAAAAAAAAVAPX/AAAAAAAAAAAWAPX/AAAAAAAAAAAXAPX/AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_q034m")
+
+[node name="InteractableObjects" type="Node2D" parent="." unique_id=1457602680]
+
+[node name="StaticObjects" type="Node2D" parent="." unique_id=1301682673]
+
+[node name="NPCs" type="Node2D" parent="." unique_id=1457402232]
+
+[node name="SampleEnemy" parent="NPCs" unique_id=958121054 instance=ExtResource("7_iv5v8")]
+position = Vector2(456, -368)
+scale = Vector2(0.25, 0.25)

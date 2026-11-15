@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://ck5i6t5ub3ukp"]
+
+[ext_resource type="Script" uid="uid://dvwnca1yh6fa6" path="res://Scripts/Entity/NPC/Enemy.cs" id="1_8ch8g"]
+[ext_resource type="Texture2D" uid="uid://bwsl02fxigxt2" path="res://icon.svg" id="2_8ch8g"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q034m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8ch8g")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tmte0"]
+size = Vector2(32, 32)
+
+[node name="SampleEnemy" type="CharacterBody2D" unique_id=1465626810]
+script = ExtResource("1_8ch8g")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1449080356]
+texture_filter = 1
+position = Vector2(3.8146973e-06, -3.8146973e-06)
+sprite_frames = SubResource("SpriteFrames_q034m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1830150566]
+shape = SubResource("RectangleShape2D_tmte0")

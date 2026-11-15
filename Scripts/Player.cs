@@ -19,6 +19,8 @@ public partial class Player : CharacterBody2D
 	private const float Speed = 300.0f;
 	private const float JumpVelocity = -400.0f;
 	private AnimatedSprite2D sprite;
+	private bool speedupHeld = false;
+	private bool slowdownHeld = false;
 
 	public override void _Ready()
 	{
@@ -30,6 +32,7 @@ public partial class Player : CharacterBody2D
 
 	public override void _Process(double delta)
 	{
+		UpdateTimeScale(delta);
 		ProcessCameraMovement();
 		UpdateTargetOutline();
 		UpdateDirection();
@@ -124,12 +127,22 @@ public partial class Player : CharacterBody2D
 		// TODO: CHANGE TIMESCALE CHANGE AMOUNT, FIGURE OUT WHY JOYSTICK UP SOMETIMES DOESN'T TRIGGER THIS
 		if (@event.IsActionPressed("time_down"))
 		{
-			controller.TimeScale -= 0.5;
+			slowdownHeld = true;
+		}
+
+		if (@event.IsActionReleased("time_down"))
+		{
+			slowdownHeld = false;
 		}
 
 		if (@event.IsActionPressed("time_up"))
 		{
-			controller.TimeScale += 0.5;
+			speedupHeld = true;
+		}
+
+		if (@event.IsActionReleased("time_up"))
+		{
+			speedupHeld = false;
 		}
 	}
 
@@ -210,5 +223,14 @@ public partial class Player : CharacterBody2D
 		if (targets.Count < 1) return;
 		var closest = GetClosestTarget(targets);
 		if (IsWithinReach(closest)) closest.SetOutline(true);
+	}
+
+	private void UpdateTimeScale(double delta)
+	{
+		float slowTarget = slowdownHeld ? -1f : 1;
+		float t = 1 - Mathf.Exp(-1 * (float)delta);
+		controller.TimeScale += (slowTarget - controller.TimeScale) * t;
+
+		if (Mathf.Abs(slowTarget - controller.TimeScale) < 0.001f) controller.TimeScale = slowTarget;
 	}
 }
