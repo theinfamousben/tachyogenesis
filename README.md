@@ -32,6 +32,3 @@ git clone https://github.com/theinfamousben/tachyogenesis.git
 2. Open the Project in Godot 4.7 Mono
 3. Click Export
 4. Export to your desired Operating System (you may need to add the export preset first.)
-
-# REMOVE BEFORE COMMIT!
-I was kind of the last person to realize this wasn't going anywhere, so on a sad tuesday evening, I asked my friends if we should call it quits. I honestly really wanted them to say "ohhh nooo lets continue" but I guess they knew that we were in trouble as well. So, that night, I messaged an EM and told him about my situation. 
