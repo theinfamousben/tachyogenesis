@@ -10,10 +10,4 @@ public partial class StaticInteractableObject : Entity
 		Interactable = true;
 		Invincible = true;
 	}
-
-	public override void _Ready()
-	{
-		base._Ready();
-	}
-
 }

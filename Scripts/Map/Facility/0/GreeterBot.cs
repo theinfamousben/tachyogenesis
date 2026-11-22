@@ -16,11 +16,4 @@ public partial class GreeterBot : CutsceneInitiator
 	{
 		
 	}
-
-	public override void _Process(double delta)
-	{
-		base._Process(delta);
-		
-		
-	}
 }

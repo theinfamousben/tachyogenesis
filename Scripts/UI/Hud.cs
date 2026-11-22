@@ -37,7 +37,7 @@ public partial class Hud : Control
 
 	private static string FormatElapsedTime(double elapsed) => $"Elapsed Time: {elapsed:F2}";
 
-	private static string FormatTimeScale(double scale) => $"Time Scale: {scale:F2}";
+	private static string FormatTimeScale(double scale) => $"{scale:F2}";
 
 	private string FormatHealth(float health)
 	{
@@ -50,7 +50,7 @@ public partial class Hud : Control
 				: $"[color=gray]0[/color]{h}"
 			: h.ToString();
 
-		return $"Health: {part}";
+		return $"{part}";
 	}
 
 	public void UpdateHealth(float health) => healthLabel.Text = FormatHealth(health);

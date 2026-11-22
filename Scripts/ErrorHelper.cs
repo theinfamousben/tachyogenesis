@@ -28,10 +28,7 @@ public class ErrorHelper
 
     public void Throw(Errors errorEnum, string caller = "[none]") => Throw(GetError(errorEnum), caller);
 
-    public Error GetError(Errors e)
-    {
-        return errors.Find(error => error.errorEnum == e);
-    }
+    public Error GetError(Errors e) => errors.Find(error => error.errorEnum == e);
 }
 
 public class Error

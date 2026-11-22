@@ -5,6 +5,7 @@ namespace Tachyogenesis.Scripts.UI;
 public partial class PauseMenu : Control
 {
 	private Controller _controller;
+	private Label _versionLabel;
 	
 	//temp
 	private Button _settingsButton;
@@ -14,20 +15,23 @@ public partial class PauseMenu : Control
 	{
 		_controller = GetNode<Controller>("/root/Controller");
 		_settingsButton = GetNode<Button>("SettingsButton");
+		_versionLabel = GetNode<Label>("VersionLabel");
+
+		_versionLabel.Text = $"Version {ProjectSettings.GetSetting("application/config/version", "???")}";
 	}
 
 
-    private void OnContinueButton()
+	private void OnContinueButton()
 	{
 		_controller.ResumeGame();
 	}
 
-    private void OnQuitButton()
+	private void OnQuitButton()
 	{
 		GetTree().Quit();
 	}
 
-    private void OnSettingsButton()
+	private void OnSettingsButton()
 	{
 		_settingsButton.Text = "Under Construction";
 	}

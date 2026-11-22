@@ -28,12 +28,12 @@ public partial class Controller : Node2D
 	}
 	public string CurrentMap { get; private set; }
 	public ErrorHelper ErrorHelper { get; private set; } = new();
-    public KeyHint.@Input InputMethod { get; set; }
+	public KeyHint.@Input InputMethod { get; set; }
 
-    // ----- GAME BOOLS -----
-    public bool InCutscene { get; set; }
-    public bool InPauseMenu { get; private set; }
-    
+	// ----- GAME BOOLS -----
+	public bool InCutscene { get; set; }
+	public bool InPauseMenu { get; private set; }
+	
 	public override void _Ready()
 	{
 		TimeScale = 1D;
@@ -77,23 +77,23 @@ public partial class Controller : Node2D
 	// UI actions that are global to the scene should be handled here!!!
 	public override void _Input(InputEvent @event)
 	{
-        switch (@event)
-        {
-            case InputEventMouse:
-            case InputEventKey:
-                InputMethod = KeyHint.@Input.PC;
-                break;
-            case InputEventJoypadMotion:
-            case InputEventJoypadButton:
-                InputMethod = Constants.IS_PLAYSTATION 
-                    ? KeyHint.@Input.PS 
-                    :KeyHint.@Input.Xbox;
-                break;
-            // Setting up PlayStation controllers requires knowing whether the connected controller *is* a PlayStation
-            // controller, so it's better to just ask in the beginning which symbols to use / explicitly set it to
-            // PlayStation in the PlayStation version via Constants
-        }
-        
+		switch (@event)
+		{
+			case InputEventMouse:
+			case InputEventKey:
+				InputMethod = KeyHint.@Input.PC;
+				break;
+			case InputEventJoypadMotion:
+			case InputEventJoypadButton:
+				InputMethod = Constants.IS_PLAYSTATION 
+					? KeyHint.@Input.PS 
+					:KeyHint.@Input.Xbox;
+				break;
+			// Setting up PlayStation controllers requires knowing whether the connected controller *is* a PlayStation
+			// controller, so it's better to just ask in the beginning which symbols to use / explicitly set it to
+			// PlayStation in the PlayStation version via Constants
+		}
+		
 		if (@event.IsActionPressed("quit"))
 		{
 			if (InPauseMenu)

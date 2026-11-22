@@ -37,8 +37,6 @@ public partial class Entity : CharacterBody2D
 	
 	public virtual void SetHealth(float health)
 	{
-		GD.Print(health);
-		GD.Print(Health);
 		Health = Mathf.Clamp(health, 0, MaxHealth );
 
 		if (health <= 0)
@@ -76,8 +74,7 @@ public partial class Entity : CharacterBody2D
 			GetNode<Node2D>("KeyHint").Free();
 		}
 
-		if (outlineEnabled == enabled)
-			return;
+		if (outlineEnabled == enabled) return;
 
 		outlineEnabled = enabled;
 		try

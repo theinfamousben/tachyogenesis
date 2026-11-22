@@ -14,8 +14,8 @@ script = ExtResource("1_o3hd0")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=781508342]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1152.0
+offset_bottom = 648.0
 color = Color(0.26666668, 0.26666668, 0.26666668, 0.54509807)
 
 [node name="PausedLabel" type="Label" parent="." unique_id=343072781]
@@ -54,6 +54,16 @@ offset_right = 672.0
 offset_bottom = 400.0
 theme = ExtResource("2_xu32l")
 text = "Quit"
+
+[node name="VersionLabel" type="Label" parent="." unique_id=600412499]
+layout_mode = 0
+offset_left = 960.0
+offset_top = 616.0
+offset_right = 1152.0
+offset_bottom = 648.0
+text = "Version [xxx]"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [connection signal="pressed" from="ContinueButton" to="." method="OnContinueButton"]
 [connection signal="pressed" from="SettingsButton" to="." method="OnSettingsButton"]
