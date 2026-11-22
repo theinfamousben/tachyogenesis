@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dvwnca1yh6fa6" path="res://Scripts/Entity/NPC/Enemy.cs" id="1_8ch8g"]
 [ext_resource type="Texture2D" uid="uid://bwsl02fxigxt2" path="res://icon.svg" id="2_8ch8g"]
+[ext_resource type="Material" uid="uid://dj3n4oce3d5hg" path="res://Resources/Shaders/Outline.tres" id="3_j5ymv"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q034m"]
 animations = [{
@@ -15,13 +16,14 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tmte0"]
-size = Vector2(32, 32)
+size = Vector2(128, 128)
 
 [node name="SampleEnemy" type="CharacterBody2D" unique_id=1465626810]
 script = ExtResource("1_8ch8g")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1449080356]
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1449080356]
 texture_filter = 1
+material = ExtResource("3_j5ymv")
 position = Vector2(3.8146973e-06, -3.8146973e-06)
 sprite_frames = SubResource("SpriteFrames_q034m")
 

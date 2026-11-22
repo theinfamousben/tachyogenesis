@@ -110,6 +110,6 @@ offset_right = -40.0
 offset_bottom = 144.0
 theme_override_font_sizes/font_size = 9
 text = "Temporary debug label:
-P to accelerate time by 0.5
-L to decelerate time by 0.5
-is  clamped so dw if it doesn't go past 4"
+Hold L or Right stick down to slow down time
+is  clamped so dw if it doesn't go past -1"
+autowrap_mode = 2

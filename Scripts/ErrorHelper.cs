@@ -9,7 +9,8 @@ public class ErrorHelper
 {
     public readonly List<Error> errors = 
     [
-        new("Camera Clamps Not Set", Errors.CameraClampsNotSet)
+        new("Camera Clamps Not Set", Errors.CameraClampsNotSet),
+        new("Outline Material Not Set", Errors.OutlineMaterialNotSet)
     ];
     public void ThrowOnce(Error e, string caller = "[none]")
     {
@@ -48,5 +49,6 @@ public class Error
 }
 public enum Errors
 {
-    CameraClampsNotSet
+    CameraClampsNotSet,
+    OutlineMaterialNotSet
 }

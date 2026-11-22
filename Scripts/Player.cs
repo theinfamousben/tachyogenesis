@@ -245,4 +245,11 @@ public partial class Player : CharacterBody2D
 	}
 
 	public void ChangeHealth(float dHealth, bool broadcast = true) => SetHealth(Health + dHealth, broadcast);
+
+    public void TakeDamage(float dmg)
+    {
+        float def = 0; // TODO: IMPLEMENT
+        
+        ChangeHealth(-(dmg - def));
+    }
 }

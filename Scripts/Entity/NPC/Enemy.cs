@@ -6,10 +6,11 @@ namespace Tachyogenesis.Scripts.Entity.NPC;
 
 public partial class Enemy : NPC
 {
-	[Export] public float DetectionRange { get; set; } = 300.0f;
-	[Export] public float AttackRange { get; set; } = 40.0f;
-	[Export] public float MoveSpeed { get; set; } = 100.0f;
-	[Export] public float AttackCooldown { get; set; } = 1.0f;
+	public float DetectionRange { get; set; } = 600.0f;
+	public float AttackRange { get; set; } = 40.0f;
+	public float MoveSpeed { get; set; } = 250.0f;
+	public float AttackCooldown { get; set; } = 1.0f;
+	public float AttackDmg { get; set; } = 1.0f;
 
 	public bool HasTarget { get; private set; }
 
@@ -43,7 +44,7 @@ public partial class Enemy : NPC
 			return;
 		}
 
-        if (controller.TimeScale < 0)
+		if (controller.TimeScale < 0)
 		{
 			HasTarget = false;
 			var snapshot = coordHist.GetLatestAtOrBefore(controller.Elapsed);
@@ -66,7 +67,7 @@ public partial class Enemy : NPC
 		else
 		{
 			Velocity = new Vector2(
-				Mathf.MoveToward(Velocity.X, 0.0f, MoveSpeed * physicsDelta),
+				Mathf.MoveToward(Velocity.X, 0.0f, MoveSpeed * physicsDelta * (float)controller.TimeScale),
 				Velocity.Y);
 		}
 
@@ -74,20 +75,20 @@ public partial class Enemy : NPC
 			GlobalPosition.DistanceTo(controller.Player.GlobalPosition) <= AttackRange &&
 			attackTimer <= 0.0)
 		{
-			Attack(controller.Player);
+			Attack();
 			attackTimer = Mathf.Max(0.01f, AttackCooldown);
 		}
 
 		MoveAndSlide();
 	}
 
-    protected virtual void ScoutPlayer()
+	protected virtual void ScoutPlayer()
 	{
 		HasTarget = GlobalPosition.DistanceTo(controller.Player.GlobalPosition) <=
 					Mathf.Max(0.0f, DetectionRange);
 	}
 
-    protected virtual void TargetPlayer()
+	protected virtual void TargetPlayer()
 	{
 		if (!HasTarget) return;
 
@@ -107,5 +108,8 @@ public partial class Enemy : NPC
 		}
 	}
 
-    protected virtual void Attack(Player player) { }
+	protected virtual void Attack()
+	{
+		controller.Player.TakeDamage(AttackDmg);
+	}
 }

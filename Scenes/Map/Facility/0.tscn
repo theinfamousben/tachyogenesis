@@ -69,7 +69,7 @@ script = ExtResource("7_w00ew")
 position = Vector2(200, 16)
 script = ExtResource("8_kh1o2")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="InteractableObjects/bot" unique_id=1413788244]
+[node name="Sprite" type="AnimatedSprite2D" parent="InteractableObjects/bot" unique_id=1413788244]
 material = ExtResource("6_qfqmi")
 scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_a1n5f")
