@@ -1,28 +1,58 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using Tachyogenesis.Data;
+using Tachyogenesis.Scripts.Entity.NPC;
 using Tachyogenesis.Types;
 
 namespace Tachyogenesis.Scripts;
 
 public partial class Player : CharacterBody2D
 {
+	/*
+	 * ######
+	 * FIELDS
+	 * ######
+	 */
+	
 	[Signal] public delegate void HealthChangedEventHandler(float health);
 
-	public float Health { get; private set; }
-	public float MaxHealth { get; private set; } = 100f;
-	private Vector2 direction = new Vector2(1, 0);
-	private Vector2 reach = new Vector2(100, 0);
+	// ----- NODES -----
+	private AnimatedSprite2D sprite;
 	private Controller controller;
+	
+	// ----- MOVEMENT -----
+	public float Speed { get; private set; } = 300.0f;
+	public float JumpVelocity { get; private set; }= -400.0f;
+	private Vector2 direction = new(1, 0);
+	private Vector2 reach = new(100, 0);
 	private Vector2 origin;
 	private CoordHist coordHist;
-	private const float Speed = 300.0f;
-	private const float JumpVelocity = -400.0f;
-	private AnimatedSprite2D sprite;
-	private bool speedupHeld = false;
-	private bool slowdownHeld = false;
+	
+	// ----- COMBAT -----
+	public float Health { get; private set; }
+	public float MaxHealth { get; private set; } = 100f;
+	public float BaseAttack { get; private set; } = 25;
+	public float Pierce { get; private set; } = 1;
+	
+	// ----- TIME MANIPULATION ----
+	private const float TimeScaleSnapZone = 0.25f;
+	private float timeScaleTarget = 1f;
+	private float heldTimeScaleOrigin;
+	private float heldTimeScaleTarget;
+	private bool heldTimeScaleTargetReached;
+	private bool slowdownHeld;
+	private bool speedupHeld;
+	// you'd think this is easy
 
+	/*
+	 * #######
+	 * METHODS
+	 * #######
+	 */
+	
+	// ----- GODOT -----
 	public override void _Ready()
 	{
 		controller = GetNode<Controller>("/root/Controller");
@@ -87,18 +117,65 @@ public partial class Player : CharacterBody2D
 		if (Position.Y > 5000) Die();
 	}
 
-	private void UpdateDirection() => sprite.FlipH = direction.X < 0;
-
-	private void Die()
+	public override void _Input(InputEvent @event)
 	{
-		Position = Vector2.Zero;
+		if (@event.IsActionPressed("interact"))
+		{
+			AttemptInteract();
+		}
+
+		if (@event.IsActionPressed("attack"))
+		{
+			Attack();
+		}
+
+		if (@event.IsActionPressed("time_down") && !slowdownHeld && !speedupHeld)
+		{
+			slowdownHeld = true;
+			heldTimeScaleOrigin = GetTimeScaleStage(controller.TimeScale);
+			heldTimeScaleTarget = heldTimeScaleOrigin > 0f ? 0f : -1f;
+			heldTimeScaleTargetReached = false;
+			timeScaleTarget = heldTimeScaleTarget;
+		}
+
+		if (@event.IsActionReleased("time_down") && slowdownHeld)
+		{
+			slowdownHeld = false;
+			timeScaleTarget = heldTimeScaleTargetReached
+				? heldTimeScaleTarget
+				: heldTimeScaleOrigin;
+			if (!heldTimeScaleTargetReached)
+				controller.TimeScale = heldTimeScaleOrigin;
+		}
+
+		if (@event.IsActionPressed("time_up") && !speedupHeld && !slowdownHeld)
+		{
+			speedupHeld = true;
+			heldTimeScaleOrigin = GetTimeScaleStage(controller.TimeScale);
+			heldTimeScaleTarget = heldTimeScaleOrigin < 0f ? 0f : 1f;
+			heldTimeScaleTargetReached = false;
+			timeScaleTarget = heldTimeScaleTarget;
+		}
+
+		if (@event.IsActionReleased("time_up") && speedupHeld)
+		{
+			speedupHeld = false;
+			timeScaleTarget = heldTimeScaleTargetReached
+				? heldTimeScaleTarget
+				: heldTimeScaleOrigin;
+			if (!heldTimeScaleTargetReached)
+				controller.TimeScale = heldTimeScaleOrigin;
+		}
 	}
+	
+	// ----- MOVEMENT -----
+	private void UpdateDirection() => sprite.FlipH = direction.X < 0;
 
 	private bool CanMove()
 	{
 		return !controller.InCutscene;
 	}
-
+	
 	private void ProcessCameraMovement()
 	{
 		CoordinateRange clamps;
@@ -118,36 +195,13 @@ public partial class Player : CharacterBody2D
 			Mathf.Clamp (Position.Y, clamps.y1, clamps.y2)
 		);
 	}
-
-	public override void _Input(InputEvent @event)
+	
+	
+	private void Die()
 	{
-		if (@event.IsActionPressed("interact"))
-		{
-			AttemptInteract();
-		}
-
-		// TODO: CHANGE TIMESCALE CHANGE AMOUNT, FIGURE OUT WHY JOYSTICK UP SOMETIMES DOESN'T TRIGGER THIS
-		if (@event.IsActionPressed("time_down"))
-		{
-			slowdownHeld = true;
-		}
-
-		if (@event.IsActionReleased("time_down"))
-		{
-			slowdownHeld = false;
-		}
-
-		if (@event.IsActionPressed("time_up"))
-		{
-			speedupHeld = true;
-		}
-
-		if (@event.IsActionReleased("time_up"))
-		{
-			speedupHeld = false;
-		}
+		Position = Vector2.Zero;
 	}
-
+	
 	private void AttemptInteract()
 	{
 		if (controller.InCutscene) return;
@@ -161,7 +215,7 @@ public partial class Player : CharacterBody2D
 		closest.Interact();
 	}
 
-	private Entity.Entity GetClosestTarget(List<Node2D> targets)
+	private Entity.Entity GetClosestTarget(List<Entity.Entity> targets)
 	{
 		Entity.Entity closest = null;
 		foreach (var node in targets)
@@ -176,10 +230,10 @@ public partial class Player : CharacterBody2D
 		return closest;
 	}
 
-	private List<Node2D> GetInteractablesWithinReach()
+	private List<Entity.Entity> GetInteractablesWithinReach()
 	{
-		List<Node2D> targets = GetInteractables();
-		List<Node2D> targetsWithinReach = [];
+		List<Entity.Entity> targets = GetInteractables();
+		List<Entity.Entity> targetsWithinReach = [];
 
 		foreach (var target in targets)
 		{
@@ -201,17 +255,51 @@ public partial class Player : CharacterBody2D
 	private bool IsWithinReach(Node2D target) => Mathf.Abs(target.Position.X - Position.X) <= reach.X &&
 												 (target.Position.X - Position.X) * direction.X >= 0;
 
-	private List<Node2D> GetInteractables()
+	private List<Entity.Entity> GetInteractables()
 	{
-		List<Node2D> targets = [];
+		List<Entity.Entity> targets = [];
 
-		foreach (Node2D node in GetTree().GetNodesInGroup("Interactable"))
+		foreach (Entity.Entity e in GetTree().GetNodesInGroup("Interactable"))
 		{
-			targets.Add(node);
+			targets.Add(e);
 		}
 
 		return targets;
 	}
+
+	private List<Enemy> GetEnemies()
+	{
+		List<Enemy> targets = [];
+
+		foreach (Enemy e in GetTree().GetNodesInGroup("Enemy"))
+		{
+			targets.Add(e);
+		}
+
+		return targets;
+	}
+
+	private List<Enemy> GetEnemiesWithinReach()
+	{
+		List<Enemy> targets = GetEnemies();
+		List<Enemy> targetsWithinReach = [];
+
+		foreach (Enemy e in targets)
+		{
+			if (IsWithinReach(e))
+			{
+				targetsWithinReach.Add(e);
+			}
+		}
+
+		return targetsWithinReach;
+	}
+
+	private List<Node2D> SortClosestToPlayer(List<Node2D> nodes) =>
+		[.. nodes.OrderBy(node => node.Position.DistanceTo(this.Position))];
+
+	private List<Enemy> SortClosestToPlayer(List<Enemy> nodes) =>
+		[.. nodes.OrderBy(node => node.Position.DistanceTo(this.Position))];
 
 	private void UpdateTargetOutline()
 	{
@@ -227,13 +315,30 @@ public partial class Player : CharacterBody2D
 		if (IsWithinReach(closest)) closest.SetOutline(true);
 	}
 
+	private static float GetTimeScaleStage(double scale)
+	{
+		float absDistanceToZero = Mathf.Abs((float)scale);
+		float absDistanceToOne = Mathf.Abs((float)scale - 1f);
+		float absDistanceToNegativeOne = Mathf.Abs((float)scale + 1f);
+
+		if (absDistanceToZero <= absDistanceToOne && absDistanceToZero <= absDistanceToNegativeOne)
+			return 0f;
+		if (absDistanceToOne < absDistanceToNegativeOne)
+			return 1f;
+		return -1f;
+	}
+
 	private void UpdateTimeScale(double delta)
 	{
-		float slowTarget = slowdownHeld ? -1f : 1;
-		float t = 1 - Mathf.Exp(-1 * (float)delta);
-		controller.TimeScale += (slowTarget - controller.TimeScale) * t;
+		float t = 1 - Mathf.Exp(-2 * (float)delta);
+		controller.TimeScale += (timeScaleTarget - controller.TimeScale) * t;
 
-		if (Mathf.Abs(slowTarget - controller.TimeScale) < 0.001f) controller.TimeScale = slowTarget;
+		if ((slowdownHeld || speedupHeld) &&
+			Mathf.Abs(heldTimeScaleTarget - controller.TimeScale) <= TimeScaleSnapZone)
+		{
+			controller.TimeScale = heldTimeScaleTarget;
+			heldTimeScaleTargetReached = true;
+		}
 	}
 
 	public void SetHealth(float health, bool broadcast = true)
@@ -246,10 +351,34 @@ public partial class Player : CharacterBody2D
 
 	public void ChangeHealth(float dHealth, bool broadcast = true) => SetHealth(Health + dHealth, broadcast);
 
-    public void TakeDamage(float dmg)
-    {
-        float def = 0; // TODO: IMPLEMENT
-        
-        ChangeHealth(-(dmg - def));
-    }
+	public void TakeDamage(float dmg)
+	{
+		float def = 0; // TODO: IMPLEMENT
+		
+		ChangeHealth(-(dmg - def));
+	}
+
+	public void Attack()
+	{
+		List<Enemy> targets = SortClosestToPlayer(GetEnemiesWithinReach());
+		List<Enemy> targetsToHit = [];
+		
+		for (int i = 0; i < targets.Count; i++)
+		{
+			if (i >= Mathf.Floor(Pierce)) break;
+			targetsToHit.Add(targets[i]);
+		}
+
+		foreach (Enemy e in targetsToHit)
+		{
+			e.TakeDamage(CalculateAttackDamage());
+		}
+
+	}
+
+	// attack stuff goes here;
+	public float CalculateAttackDamage()
+	{
+		return BaseAttack;
+	}
 }

@@ -18,13 +18,14 @@ public partial class Entity : CharacterBody2D
 	
 	public Entity()
 	{
-		Health = MaxHealth;
 		Invincible = false;
 		Interactable = false;
 	}
 
 	public override void _Ready()
 	{
+		Health = MaxHealth;
+		
 		controller = GetNode<Controller>("/root/Controller");
 		if (Interactable) AddToGroup("Interactable");
 		sprite = GetNode<AnimatedSprite2D>("Sprite");
@@ -36,7 +37,9 @@ public partial class Entity : CharacterBody2D
 	
 	public virtual void SetHealth(float health)
 	{
-		Health = Mathf.Clamp(0, MaxHealth, health);
+		GD.Print(health);
+		GD.Print(Health);
+		Health = Mathf.Clamp(health, 0, MaxHealth );
 
 		if (health <= 0)
 		{
@@ -56,17 +59,17 @@ public partial class Entity : CharacterBody2D
 	{
 		if (enabled)
 		{
-			if (!HasNode("KeyHint"))
-			{
-				var instance = GD.Load<PackedScene>("res://Prefabs/KeyHint.tscn").Instantiate();
-				instance.Name = "KeyHint";
-				var spriteNode = instance.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-				spriteNode.Scale = new Vector2(0.67f, 0.67f);
-				spriteNode.Position = spriteNode.Position with { Y = -24f };
-				spriteNode.Animation = KeyHint.InputToString[controller.InputMethod]; 
-				spriteNode.Frame = KeyHint.GetKey("interact", controller.InputMethod);
-				AddChild(instance);
-			}
+			if (HasNode("KeyHint")) return;
+			
+			var instance = GD.Load<PackedScene>("res://Prefabs/KeyHint.tscn").Instantiate();
+			instance.Name = "KeyHint";
+			var spriteNode = instance.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+			spriteNode.Scale = new Vector2(0.67f, 0.67f);
+			spriteNode.Position = spriteNode.Position with { Y = -32f };
+			spriteNode.Animation = KeyHint.InputToString[controller.InputMethod]; 
+			spriteNode.Frame = KeyHint.GetKey("interact", controller.InputMethod);
+			AddChild(instance);
+			
 		}
 		else if (HasNode("KeyHint"))
 		{
@@ -83,7 +86,7 @@ public partial class Entity : CharacterBody2D
 		}
 		catch (NullReferenceException)
 		{
-			controller.ErrorHelper.ThrowOnce(Errors.OutlineMaterialNotSet, this.ToString());
+			controller.ErrorHelper.ThrowOnce(Errors.OutlineMaterialNotSet, this.ToString()); 
 		}
 	}
 }

@@ -13,7 +13,7 @@ public partial class Controller : Node2D
 	public DialogBox Dialog { get; private set; }
 	public Hud Hud { get; private set; }
 	public Player Player { get; private set; }
-	public UI.PauseMenu PauseMenu { get; private set; }
+	public PauseMenu PauseMenu { get; private set; }
 	
 	// ----- RANDOM VARS -----
 	public double Elapsed { get; private set; }
@@ -26,12 +26,14 @@ public partial class Controller : Node2D
 			_timeScale = Math.Clamp(value, -4D, 4D);
 		}
 	}
-	public bool InPauseMenu { get; private set; }
 	public string CurrentMap { get; private set; }
-	public bool InCutscene { get; set; }
 	public ErrorHelper ErrorHelper { get; private set; } = new();
     public KeyHint.@Input InputMethod { get; set; }
 
+    // ----- GAME BOOLS -----
+    public bool InCutscene { get; set; }
+    public bool InPauseMenu { get; private set; }
+    
 	public override void _Ready()
 	{
 		TimeScale = 1D;
@@ -104,5 +106,4 @@ public partial class Controller : Node2D
 			}
 		}
 	}
-
 }

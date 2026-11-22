@@ -8,8 +8,8 @@ public partial class Enemy : NPC
 {
 	public float DetectionRange { get; set; } = 600.0f;
 	public float AttackRange { get; set; } = 40.0f;
-	public float MoveSpeed { get; set; } = 250.0f;
-	public float AttackCooldown { get; set; } = 1.0f;
+	public float MoveSpeed { get; set; } = 150.0f;
+	public float AttackCooldown { get; set; } = 2.0f;
 	public float AttackDmg { get; set; } = 1.0f;
 
 	public bool HasTarget { get; private set; }
@@ -20,10 +20,12 @@ public partial class Enemy : NPC
 	public Enemy()
 	{
 		NPCType = NPCType.Enemy;
+		MaxHealth = 50;
 	}
 
 	public override void _Ready()
 	{
+		AddToGroup("Enemy");
 		base._Ready();
 		coordHist = new CoordHist(Position);
 	}
