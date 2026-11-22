@@ -26,27 +26,27 @@ public partial class TitleScreen : Control
 		
 	}
 
-	public void _OnContinueGame()
+	private void _OnContinueGame()
 	{
 		continueButton.Text = "under construction";
 	}
 
-	public void _OnLoadGame()
+	private void _OnLoadGame()
 	{
 		loadGameButton.Text = "under construction";
 	}
 
-	public void _OnSettings()
+	private void _OnSettings()
 	{
 		settingsButton.Text = "under construction";
 	}
 
-	public void _OnQuit()
+	private void _OnQuit()
 	{
 		GetTree().Quit();
 	}
 
-	public void _OnNewGame()
+	private void _OnNewGame()
 	{
 		GetTree().ChangeSceneToFile("res://Scenes/Intro.tscn");
 	}

@@ -17,17 +17,17 @@ public partial class PauseMenu : Control
 	}
 
 
-	public void OnContinueButton()
+    private void OnContinueButton()
 	{
 		_controller.ResumeGame();
 	}
 
-	public void OnQuitButton()
+    private void OnQuitButton()
 	{
 		GetTree().Quit();
 	}
 
-	public void OnSettingsButton()
+    private void OnSettingsButton()
 	{
 		_settingsButton.Text = "Under Construction";
 	}

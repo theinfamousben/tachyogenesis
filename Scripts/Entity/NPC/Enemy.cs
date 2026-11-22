@@ -37,19 +37,13 @@ public partial class Enemy : NPC
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (controller?.Player == null || controller.InCutscene)
+		if (controller?.Player == null || controller.InCutscene || Mathf.IsZeroApprox(controller.TimeScale))
 		{
 			HasTarget = false;
 			return;
 		}
 
-		if (Mathf.IsZeroApprox(controller.TimeScale))
-		{
-			HasTarget = false;
-			return;
-		}
-
-		if (controller.TimeScale < 0)
+        if (controller.TimeScale < 0)
 		{
 			HasTarget = false;
 			var snapshot = coordHist.GetLatestAtOrBefore(controller.Elapsed);
@@ -87,13 +81,13 @@ public partial class Enemy : NPC
 		MoveAndSlide();
 	}
 
-	public virtual void ScoutPlayer()
+    protected virtual void ScoutPlayer()
 	{
 		HasTarget = GlobalPosition.DistanceTo(controller.Player.GlobalPosition) <=
 					Mathf.Max(0.0f, DetectionRange);
 	}
 
-	public virtual void TargetPlayer()
+    protected virtual void TargetPlayer()
 	{
 		if (!HasTarget) return;
 
@@ -113,5 +107,5 @@ public partial class Enemy : NPC
 		}
 	}
 
-	public virtual void Attack(Player player) { }
+    protected virtual void Attack(Player player) { }
 }

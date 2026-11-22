@@ -11,12 +11,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_exsb8")
 
-[node name="Health" type="Label" parent="." unique_id=18491640]
+[node name="Health" type="RichTextLabel" parent="." unique_id=1780648883]
 layout_mode = 0
 offset_top = 608.0
-offset_right = 160.0
-offset_bottom = 648.0
-text = "Health: 67"
+offset_right = 120.0
+offset_bottom = 640.0
+bbcode_enabled = true
+text = "Health: 0"
+scroll_active = false
 
 [node name="TimeScale" type="Label" parent="." unique_id=1302184221]
 layout_mode = 0
@@ -27,8 +29,7 @@ text = "Time Scale: [0.00]"
 
 [node name="ElapsedTime" type="Label" parent="." unique_id=2004184781]
 layout_mode = 0
-offset_left = -8.0
 offset_top = 528.0
-offset_right = 152.0
+offset_right = 160.0
 offset_bottom = 568.0
 text = "Elapsed Time: [0.00]"

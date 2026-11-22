@@ -42,8 +42,12 @@ public partial class Controller : Node2D
 		Hud = GetNode<Hud>("CanvasLayer/Hud");
 		Player = GetNode<Player>("Player");
 
+		Player.HealthChanged += _ => Hud.UpdateHealth(Player.Health);
+		
 		Dialog.Hide();
 		ResumeGame(); // call to hide Pause Menu
+		
+		Player.SetHealth(Player.MaxHealth);
 	}
 
 	public override void _Process(double delta)
@@ -80,4 +84,5 @@ public partial class Controller : Node2D
 			}
 		}
 	}
+
 }

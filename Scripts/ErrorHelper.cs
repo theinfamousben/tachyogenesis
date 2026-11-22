@@ -33,7 +33,6 @@ public class ErrorHelper
     }
 }
 
-
 public class Error
 {
     public Error(string msg, Errors errorEnum, bool thrown = false)

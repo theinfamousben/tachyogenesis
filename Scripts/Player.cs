@@ -11,6 +11,7 @@ public partial class Player : CharacterBody2D
 	[Signal] public delegate void HealthChangedEventHandler(float health);
 
 	public float Health { get; private set; }
+	public float MaxHealth { get; private set; } = 100f;
 	private Vector2 direction = new Vector2(1, 0);
 	private Vector2 reach = new Vector2(100, 0);
 	private Controller controller;
@@ -28,6 +29,7 @@ public partial class Player : CharacterBody2D
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		origin = Position;
 		coordHist = new CoordHist(origin);
+		Health = MaxHealth; // in case controller isn't called for some reason
 	}
 
 	public override void _Process(double delta)
@@ -233,4 +235,14 @@ public partial class Player : CharacterBody2D
 
 		if (Mathf.Abs(slowTarget - controller.TimeScale) < 0.001f) controller.TimeScale = slowTarget;
 	}
+
+	public void SetHealth(float health, bool broadcast = true)
+	{
+		Health = Mathf.Clamp(health, 0, MaxHealth);
+		if (broadcast) EmitSignalHealthChanged(Health);
+		
+		if (Health <= 0) Die();
+	}
+
+	public void ChangeHealth(float dHealth, bool broadcast = true) => SetHealth(Health + dHealth, broadcast);
 }

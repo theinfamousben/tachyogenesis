@@ -13,7 +13,7 @@ public class Facility0BotSequence : Cutscene
             throw new System.ArgumentException("TerminalSequence requires a CutsceneInitiator host.");
 
         var dialog = cutscene.controller.Dialog;
-        const string bot = "Bot";
+        const string bot = "Solstice";
         string athena = "???";
         
         cutscene.controller.Hud.Hide();

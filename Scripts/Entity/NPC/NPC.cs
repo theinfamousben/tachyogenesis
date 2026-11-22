@@ -2,9 +2,9 @@ namespace Tachyogenesis.Scripts.Entity.NPC;
 
 public partial class NPC : Entity
 {
-    public  NPCType NPCType { get; protected init; }
+    protected NPCType NPCType { get; init; }
 
-    public NPC()
+    protected NPC()
     {
         
     }
